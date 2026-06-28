@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Planeee — The last-minute life saver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- AI Studio injects process.env.API_KEY server-side at deploy. @google/genai loaded via importmap (no bundler). -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.sh/@google/genai@0.14.0"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- ambient glow layers -->
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+
+  <!-- entropy spine (CHAOS -> ORDER), hides on narrow screens -->
+  <aside class="entropy-spine" aria-hidden="true">
+    <span class="entropy-cap">ORDER</span>
+    <div class="entropy-track"><div class="entropy-fill" id="entropyFill"></div></div>
+    <span class="entropy-cap">CHAOS</span>
+    <span class="entropy-pct mono" id="entropyPct">—</span>
+  </aside>
+
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">Plan<span class="brand-accent">eee</span></div>
+      <div class="streak mono" id="streak" title="Days on track">🔥 0</div>
+    </header>
+
+    <!-- proactive recommendation: the relief moment -->
+    <section class="now-card" id="nowCard">
+      <div class="now-eyebrow mono">RIGHT NOW · DO THIS</div>
+      <h1 class="now-title" id="nowTitle">Loading your day…</h1>
+      <p class="now-why" id="nowWhy"></p>
+      <div class="now-actions">
+        <button class="btn btn-primary" id="nowDone">Done — next</button>
+        <button class="btn btn-ghost" id="suggestNext">Suggest next</button>
+        <button class="btn btn-ghost" id="missedToday">I missed today</button>
+      </div>
+    </section>
+
+    <!-- today's focus -->
+    <section class="focus">
+      <div class="focus-head">
+        <h2 class="section-title mono">TODAY'S FOCUS</h2>
+        <div class="focus-meta">
+          <span class="status-pill mono" id="statusPill">ON TRACK</span>
+          <div class="ring" id="ring"><span class="ring-pct mono" id="ringPct">0%</span></div>
+        </div>
+      </div>
+      <ul class="task-list" id="taskList"></ul>
+    </section>
+
+    <!-- agentic depth proof: visible reasoning trace -->
+    <section class="trace">
+      <button class="trace-toggle mono" id="traceToggle">▸ AGENT REASONING TRACE</button>
+      <ol class="trace-steps" id="traceSteps" hidden></ol>
+    </section>
+  </main>
+
+  <!-- agent orb -->
+  <button class="orb" id="orb" aria-label="Planeee says">
+    <span class="orb-core"></span>
+    <span class="orb-bubble" id="orbBubble"></span>
+  </button>
+
+  <!-- add FAB -> composer -->
+  <button class="fab" id="fab" aria-label="Add task">+</button>
+  <div class="composer" id="composer" hidden>
+    <input class="composer-input" id="composerInput"
+      placeholder="Dump it: '5-page report due Friday, 2h exam prep…'" autocomplete="off" />
+    <div class="composer-row">
+      <label class="upload mono" title="Snap a syllabus / brief">
+        📎 PHOTO/PDF
+        <input type="file" id="fileInput" accept="image/*,application/pdf" hidden />
+      </label>
+      <div class="prio-chips" id="prioChips">
+        <button class="chip" data-prio="high">HIGH</button>
+        <button class="chip" data-prio="med">MED</button>
+        <button class="chip chip-on" data-prio="low">LOW</button>
+      </div>
+      <button class="btn btn-primary" id="composerAdd">Plan it</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
